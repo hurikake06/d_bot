@@ -1,0 +1,1 @@
+const doGet = () => ContentService.createTextOutput(JSON.stringify({'content': 'get ok!!'})).setMimeType(ContentService.MimeType.JSON)
