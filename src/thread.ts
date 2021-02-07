@@ -1,6 +1,5 @@
-import { InputMessage } from './types'
-import MessageApp from './apps/message_app'
-import SummonFreakApp from './apps/summon_freak_app'
+import { InputMessage, OutputMessage, MessageApp } from './types'
+import MessageAppShop from './message_app_shop'
 
 export default class Thread {
   token: string
@@ -10,20 +9,14 @@ export default class Thread {
   constructor(message: InputMessage) {
     this.token = message.token
     this.lastedText = message.text
-    this.currentApp = Thread.selectApp(message.text)
+    this.currentApp = MessageAppShop.getAppByInputText(message.text)
   }
 
-  static selectApp = (text: string): MessageApp => {
-    let appClass = MessageApp
-    if(SummonFreakApp.appCheck(text)){
-      appClass = SummonFreakApp
-    }
+  static findOrCreate = (message: InputMessage): Thread => Thread.findBy(message) || Thread.create(message)
+  static findBy = (message: InputMessage): Thread => null
+  static create = (message: InputMessage): Thread => new Thread(message)
 
-    return new appClass()
-  }
-
-  next_result = () => {
-    let text: string = this.currentApp.run(this.lastedText)
-    return { type: 'text', text: text }
+  next_result = (): OutputMessage => {
+    return this.currentApp.run(this.lastedText)
   }
 }
