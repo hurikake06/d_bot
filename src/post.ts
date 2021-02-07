@@ -1,3 +1,7 @@
+import { LINE_TOKEN, LINE_URL } from './env'
+import Thread from './thread'
+import ThreadManager from './thread_manager'
+
 const messageWithSuffix = (message: string): any => {
   return { 'type': 'text', 'text': message + '!?' }
 }
@@ -11,7 +15,8 @@ const doPost = (e) => {
     'Authorization': 'Bearer ' + LINE_TOKEN,
   }
 
-  let messages = [messageWithSuffix(userMessage)]
+  let thread: Thread = ThreadManager.getThread({ token: 'aa', text: userMessage })
+  let messages = [thread.next_result()]
 
   UrlFetchApp.fetch(LINE_URL, {
     'headers': header,
