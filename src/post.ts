@@ -1,3 +1,7 @@
+import env from './env'
+import Thread from './thread'
+import ThreadManager from './thread_manager'
+
 const messageWithSuffix = (message: string): any => {
   return { 'type': 'text', 'text': message + '!?' }
 }
@@ -8,12 +12,13 @@ const doPost = (e) => {
 
   let header = {
     'Content-Type': 'application/json; charset=UTF-8',
-    'Authorization': 'Bearer ' + LINE_TOKEN,
+    'Authorization': 'Bearer ' + env('LINE_TOKEN'),
   }
 
-  let messages = [messageWithSuffix(userMessage)]
+  let thread: Thread = ThreadManager.getThread({ token: 'aa', text: userMessage })
+  let messages = [thread.next_result()]
 
-  UrlFetchApp.fetch(LINE_URL, {
+  UrlFetchApp.fetch(env('LINE_URL'), {
     'headers': header,
     'method': 'post',
     'payload': JSON.stringify({
