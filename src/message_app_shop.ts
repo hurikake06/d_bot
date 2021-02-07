@@ -4,28 +4,23 @@ import { InputMessage, MessageApp } from './types'
 export default class MessageAppShop {
   static defaultApp: MessageApp = {
     id: 0,
-    name: 'defaultApp',
-    check: (text: string) => true,
-    run: (text: string) => { return { type: 'text', text: (text + '!!??') } }
+    name: 'ModifierGame',
+    check: (text: string): boolean => true,
+    run: (text: string) => MessageAppShop.fetchApp(env('MODIFIER_GAME_URL'), text)
   }
 
   static messageApps: MessageApp[] = [
     { id: 1,
       name: 'SummonFreakApp',
-      check: (text: string) => !!text.match(/.+(\s召喚)$/g),
+      check: (text: string): boolean => !!text.match(/.+(\s召喚)$/g),
       run: (text: string) => {
         return { type: 'text', text: (text.replace(/(\s召喚)$/g, '') + ' サーモン食べたい') }
       }
     },
     { id: 2,
       name: 'BakeryApp',
-      check: (text: string) => !!text.match(/パン食べたい/g),
+      check: (text: string): boolean => !!text.match(/パン食べたい/g),
       run: (text: string) => MessageAppShop.fetchApp(env('BAKERY_URL'), text)
-    },
-    { id: 3,
-      name: 'ModifierGame',
-      check: (text: string) => !!text.match(/.+/g),
-      run: (text: string) => MessageAppShop.fetchApp(env('MODIFIER_GAME_URL'), text)
     }
   ]
 
