@@ -1,13 +1,16 @@
 import Thread from './thread'
-import ThreadManager from './thread_manager'
+import { InputMessage, OutputMessage } from './types'
 
 const doGet = (e) => {
   e = e || { parameter: { token: 'sample_token', text: 'sample_text' }}
-  let token = e.parameter.token || 'sample_token'
-  let text = e.parameter.text || 'sample_text'
 
-  let thread: Thread = ThreadManager.getThread({ token: token, text: text })
-  let result = thread.next_result()
+  let inputMessage: InputMessage = {
+    token: e.parameter.token || 'sample_token',
+    text: e.parameter.text || 'sample_text'
+  }
+
+  let thread: Thread = Thread.findOrCreate(inputMessage)
+  let result: OutputMessage = thread.next_result()
 
   return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON)
 }

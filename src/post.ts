@@ -1,25 +1,19 @@
 import env from './env'
+import { InputMessage, OutputMessage } from './types'
 import Thread from './thread'
-import ThreadManager from './thread_manager'
-
-const messageWithSuffix = (message: string): any => {
-  return { 'type': 'text', 'text': message + '!?' }
-}
 
 const doPost = (e) => {
-  let replyToken = JSON.parse(e.postData.contents).events[0].replyToken
-  let userMessage = JSON.parse(e.postData.contents).events[0].message.text
-
-  let header = {
-    'Content-Type': 'application/json; charset=UTF-8',
-    'Authorization': 'Bearer ' + env('LINE_TOKEN'),
-  }
-
-  let thread: Thread = ThreadManager.getThread({ token: 'aa', text: userMessage })
-  let messages = [thread.next_result()]
+  let replyToken: string = JSON.parse(e.postData.contents).events[0].replyToken
+  let userMessage: string = JSON.parse(e.postData.contents).events[0].message.text
+  let inputMessage: InputMessage = { token: replyToken, text: userMessage }
+  let thread: Thread = Thread.findOrCreate(inputMessage)
+  let messages: OutputMessage[] = [thread.next_result()]
 
   UrlFetchApp.fetch(env('LINE_URL'), {
-    'headers': header,
+    'headers': {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + env('LINE_TOKEN'),
+    },
     'method': 'post',
     'payload': JSON.stringify({
       'replyToken': replyToken,
