@@ -21,6 +21,11 @@ export default class MessageAppShop {
       name: 'BakeryApp',
       check: (text: string) => !!text.match(/パン食べたい/g),
       run: (text: string) => MessageAppShop.fetchApp(env('BAKERY_URL'), text)
+    },
+    { id: 3,
+      name: 'ModifierGame',
+      check: (text: string) => !!text.match(/.+/g),
+      run: (text: string) => MessageAppShop.fetchApp(env('MODIFIER_GAME_URL'), text)
     }
   ]
 
