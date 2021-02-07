@@ -17,7 +17,6 @@ export default class Thread {
   static create = (message: InputMessage): Thread => new Thread(message)
 
   next_result = (): OutputMessage => {
-    let text: string = this.currentApp.run(this.lastedText)
-    return { type: 'text', text: text }
+    return this.currentApp.run(this.lastedText)
   }
 }
