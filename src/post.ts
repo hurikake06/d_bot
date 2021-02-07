@@ -3,9 +3,8 @@ const messageWithSuffix = (message: string): any => {
 }
 
 const doPost = (e) => {
-  let replyToken = JSON.parse(e.postData.contents).events[0].replyToken;
-  let userMessage = JSON.parse(e.postData.contents).events[0].message.text;
-  let url = 'https://api.line.me/v2/bot/message/reply';
+  let replyToken = JSON.parse(e.postData.contents).events[0].replyToken
+  let userMessage = JSON.parse(e.postData.contents).events[0].message.text
 
   let header = {
     'Content-Type': 'application/json; charset=UTF-8',
@@ -14,7 +13,7 @@ const doPost = (e) => {
 
   let messages = [messageWithSuffix(userMessage)]
 
-  UrlFetchApp.fetch(url, {
+  UrlFetchApp.fetch(LINE_URL, {
     'headers': header,
     'method': 'post',
     'payload': JSON.stringify({
