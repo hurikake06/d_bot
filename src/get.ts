@@ -1,5 +1,5 @@
 import Thread from './thread'
-import { InputMessage, OutputMessage } from './@types'
+import { InputMessage, LineMessage } from './@types'
 
 const doGet = (e) => {
   e = e || { parameter: { token: 'sample_token', text: 'sample_text' }}
@@ -10,7 +10,7 @@ const doGet = (e) => {
   }
 
   let thread: Thread = Thread.findOrCreate(inputMessage)
-  let result: OutputMessage = thread.next_result()
+  let result: LineMessage = thread.next_result()
 
   return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON)
 }
