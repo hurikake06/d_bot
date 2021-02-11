@@ -1,5 +1,5 @@
-import { InputMessage, OutputMessage, MessageApp } from './types'
-import MessageAppShop from './message_app_shop'
+import { InputMessage, OutputMessage, MessageApp } from './@types'
+import MessageAppStore from './message_app_store'
 
 export default class Thread {
   token: string
@@ -9,7 +9,7 @@ export default class Thread {
   constructor(message: InputMessage) {
     this.token = message.token
     this.lastedText = message.text
-    this.currentApp = MessageAppShop.getAppByInputText(message.text)
+    this.currentApp = MessageAppStore.getAppByInputText(message.text)
   }
 
   static findOrCreate = (message: InputMessage): Thread => Thread.findBy(message) || Thread.create(message)

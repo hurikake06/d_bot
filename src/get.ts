@@ -1,5 +1,5 @@
 import Thread from './thread'
-import { InputMessage, OutputMessage } from './types'
+import { InputMessage, OutputMessage } from './@types'
 
 const doGet = (e) => {
   e = e || { parameter: { token: 'sample_token', text: 'sample_text' }}

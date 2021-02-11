@@ -1,5 +1,5 @@
 import env from './env'
-import { InputMessage, OutputMessage } from './types'
+import { InputMessage, OutputMessage } from './@types'
 import Thread from './thread'
 
 const doPost = (e) => {
