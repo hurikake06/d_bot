@@ -1,4 +1,4 @@
-import { InputMessage, LineMessage, MessageApp } from './@types'
+import { InputMessage, LineMessage, MessageApp } from '../@types'
 import MessageAppStore from './message_app_store'
 
 export default class Thread {

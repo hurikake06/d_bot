@@ -1,5 +1,5 @@
 import env from './env'
-import { MessageApp, LineTextMessage } from './@types'
+import { MessageApp, LineTextMessage } from '../@types'
 
 export default class MessageAppStore {
   static defaultApp: MessageApp = {

@@ -1,6 +1,6 @@
-import env from './env'
+import env from './lib/env'
 import { InputMessage, LineMessage } from './@types'
-import Thread from './thread'
+import Thread from './lib/thread'
 
 const doPost = (e) => {
   let replyToken: string = JSON.parse(e.postData.contents).events[0].replyToken

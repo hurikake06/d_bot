@@ -1,4 +1,4 @@
-import Thread from './thread'
+import Thread from './lib/thread'
 import { InputMessage, LineMessage } from './@types'
 
 const doGet = (e) => {
