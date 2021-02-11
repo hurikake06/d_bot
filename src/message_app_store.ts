@@ -1,26 +1,26 @@
 import env from './env'
-import { InputMessage, MessageApp } from './types'
+import { MessageApp, LineTextMessage } from './@types'
 
-export default class MessageAppShop {
+export default class MessageAppStore {
   static defaultApp: MessageApp = {
     id: 0,
     name: 'ModifierGame',
     check: (text: string): boolean => true,
-    run: (text: string) => MessageAppShop.fetchApp(env('MODIFIER_GAME_URL'), text)
+    run: (text: string): LineTextMessage => MessageAppStore.fetchApp(env('MODIFIER_GAME_URL'), text)
   }
 
   static messageApps: MessageApp[] = [
     { id: 1,
       name: 'SummonFreakApp',
       check: (text: string): boolean => !!text.match(/.+(\s召喚)$/g),
-      run: (text: string) => {
+      run: (text: string): LineTextMessage => {
         return { type: 'text', text: (text.replace(/(\s召喚)$/g, '') + ' サーモン食べたい') }
       }
     },
     { id: 2,
       name: 'BakeryApp',
       check: (text: string): boolean => !!text.match(/パン食べたい/g),
-      run: (text: string) => MessageAppShop.fetchApp(env('BAKERY_URL'), text)
+      run: (text: string): LineTextMessage => MessageAppStore.fetchApp(env('BAKERY_URL'), text)
     }
   ]
 
@@ -30,6 +30,6 @@ export default class MessageAppShop {
   }
 
   static getAppByInputText = (text: string): MessageApp => {
-    return MessageAppShop.messageApps.find(app => app.check(text)) || MessageAppShop.defaultApp
+    return MessageAppStore.messageApps.find(app => app.check(text)) || MessageAppStore.defaultApp
   }
 }

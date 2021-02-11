@@ -1,5 +1,5 @@
 import env from './env'
-import { InputMessage, OutputMessage } from './types'
+import { InputMessage, LineMessage } from './@types'
 import Thread from './thread'
 
 const doPost = (e) => {
@@ -7,7 +7,7 @@ const doPost = (e) => {
   let userMessage: string = JSON.parse(e.postData.contents).events[0].message.text
   let inputMessage: InputMessage = { token: replyToken, text: userMessage }
   let thread: Thread = Thread.findOrCreate(inputMessage)
-  let messages: OutputMessage[] = [thread.next_result()]
+  let messages: LineMessage[] = [thread.next_result()]
 
   UrlFetchApp.fetch(env('LINE_URL'), {
     'headers': {
