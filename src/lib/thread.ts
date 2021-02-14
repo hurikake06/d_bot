@@ -10,31 +10,44 @@ interface ThreadParams extends InputMessage {
 
 export default class Thread {
   private static sheet = SpreadsheetApp.openById(env('SS_ID/DB')).getSheetByName(env('SS_NAME/THREADS'))
-  token: string
+  userId: string
+  replyToken: string
   text: string
   currentApp: MessageApp
   createdAt: Date
   updatedAt: Date
 
   constructor(params: ThreadParams) {
-    this.token = params.token || ''
+    this.userId = params.userId || ''
+    this.replyToken = params.replyToken || ''
     this.text = params.text || ''
     this.currentApp = MessageAppStore.getAppByInputText(this.text)
     this.createdAt = params.createdAt || new Date()
     this.updatedAt = params.updatedAt || new Date()
   }
 
+  static all = (): Thread[] => {
+    const lastRow = Thread.sheet.getRange('A:A').getValues().filter(String).length
+    let values = Thread.sheet.getRange(2, 1, lastRow - 1, 6).getValues()
+
+    return values.map((value) => new Thread({userId: value[0], replyToken: value[1], text: value[2], createdAt: value[4], updatedAt: value[5]}))
+  }
+
   static updateOrCreate = (params: ThreadParams): Thread => {
-    let thread = Thread.findByToken(params.token)
+    let thread = Thread.findByUserId(params.userId)
     if(thread) {
+      thread.replyToken = params.replyToken
+      thread.text = params.text
       return thread.update()
     } else {
       return Thread.create(params)
     }
   }
-  static findByToken = (token: string): Thread => Thread.all().find(thread => thread.token === token)
-  static indexByToken = (token: string): number => {
-    let index = Thread.sheet.getRange('C:C').getValues().findIndex(value => value[0] === token)
+
+  static findByUserId = (userId: string): Thread => Thread.all().find(thread => thread.userId === userId)
+
+  static indexByUserId = (userId: string): number => {
+    let index = Thread.sheet.getRange('A:A').getValues().findIndex(value => value[0] === userId)
     return index ? index + 1 : undefined
   }
 
@@ -47,24 +60,16 @@ export default class Thread {
 
   save = (row: number): void => {
     let values = [
-      [this.createdAt, this.updatedAt, this.token, this.text, 'App' ]
+      [this.userId, this.replyToken, this.text, 'App', this.createdAt, this.updatedAt ]
     ]
-    Thread.sheet.getRange(row, 1, 1, 5).setValues(values)
+    Thread.sheet.getRange(row, 1, 1, 6).setValues(values)
   }
 
   update = (): Thread => {
     this.updatedAt = new Date()
-    let row = Thread.indexByToken(this.token)
+    let row = Thread.indexByUserId(this.userId)
     this.save(row)
     return this
-  }
-
-
-  static all = (): Thread[] => {
-    const lastRow = Thread.sheet.getRange('A:A').getValues().filter(String).length
-    let values = Thread.sheet.getRange(2, 1, lastRow - 1, 5).getValues()
-
-    return values.map((value) => new Thread({token: value[2], text: value[3], createdAt: value[0], updatedAt: value[1]}))
   }
 
   next_result = (): LineMessage => {

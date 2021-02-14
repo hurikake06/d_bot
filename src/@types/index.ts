@@ -6,7 +6,8 @@ export interface MessageApp {
 }
 
 export interface InputMessage {
-  token: string,
+  userId: string,
+  replyToken: string,
   text: string
 }
 
