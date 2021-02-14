@@ -6,7 +6,7 @@ export default class MessageAppStore {
     id: 0,
     name: 'ModifierGame',
     check: (text: string): boolean => true,
-    run: (text: string): LineTextMessage => MessageAppStore.fetchApp(env('MODIFIER_GAME_URL'), text)
+    run: (text: string): LineTextMessage => MessageAppStore.fetchApp(env('URL/MODIFIER_GAME'), text)
   }
 
   static messageApps: MessageApp[] = [
@@ -20,7 +20,7 @@ export default class MessageAppStore {
     { id: 2,
       name: 'BakeryApp',
       check: (text: string): boolean => !!text.match(/パン食べたい/g),
-      run: (text: string): LineTextMessage => MessageAppStore.fetchApp(env('BAKERY_URL'), text)
+      run: (text: string): LineTextMessage => MessageAppStore.fetchApp(env('URL/BAKERY'), text)
     }
   ]
 

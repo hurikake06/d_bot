@@ -9,7 +9,7 @@ const doGet = (e) => {
     text: e.parameter.text || 'sample_text'
   }
 
-  let thread: Thread = Thread.findOrCreate(inputMessage)
+  let thread: Thread = Thread.updateOrCreate(inputMessage)
   let result: LineMessage = thread.next_result()
 
   return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON)
