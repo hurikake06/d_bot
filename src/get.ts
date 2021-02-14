@@ -2,10 +2,11 @@ import Thread from './lib/thread'
 import { InputMessage, LineMessage } from './@types'
 
 const doGet = (e) => {
-  e = e || { parameter: { token: 'sample_token', text: 'sample_text' }}
+  e = e || { parameter: { userId: 'sample_user_id', replyToken: 'sample_token', text: 'sample_text' }}
 
   let inputMessage: InputMessage = {
-    token: e.parameter.token || 'sample_token',
+    userId: e.parameter.userId || 'sample_user_id',
+    replyToken: e.parameter.replyToken || 'sample_token',
     text: e.parameter.text || 'sample_text'
   }
 

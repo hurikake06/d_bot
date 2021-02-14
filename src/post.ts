@@ -5,7 +5,8 @@ import Thread from './lib/thread'
 const doPost = (e) => {
   let replyToken: string = JSON.parse(e.postData.contents).events[0].replyToken
   let userMessage: string = JSON.parse(e.postData.contents).events[0].message.text
-  let inputMessage: InputMessage = { token: replyToken, text: userMessage }
+  let userId: string = JSON.parse(e.postData.contents).events[0].source.userId
+  let inputMessage: InputMessage = { userId: userId , replyToken: replyToken, text: userMessage }
   let thread: Thread = Thread.updateOrCreate(inputMessage)
   let messages: LineMessage[] = [thread.next_result()]
 
