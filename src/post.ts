@@ -9,10 +9,10 @@ const doPost = (e) => {
   let thread: Thread = Thread.findOrCreate(inputMessage)
   let messages: LineMessage[] = [thread.next_result()]
 
-  UrlFetchApp.fetch(env('LINE_URL'), {
+  UrlFetchApp.fetch(env('URL/LINE'), {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer ' + env('LINE_TOKEN'),
+      'Authorization': 'Bearer ' + env('TOKEN/LINE'),
     },
     'method': 'post',
     'payload': JSON.stringify({
