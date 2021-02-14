@@ -6,8 +6,6 @@
 // SS_ID/DB
 // SS_NAME/THREADS
 
-
-
 export default function env(key) {
   return PropertiesService.getScriptProperties().getProperty(key)
 }
