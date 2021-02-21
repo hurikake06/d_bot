@@ -3,7 +3,7 @@ import { MessageApp, LineTextMessage } from '../@types'
 
 export default class MessageAppStore {
   // mode管理対象
-  static modeNames: string[] = ['ModifierGame']
+  static modeNames: string[] = ['ModifierGame', 'SummonFreakApp']
 
   static defaultApp: MessageApp = {
     name: 'default',
@@ -25,9 +25,9 @@ export default class MessageAppStore {
       }
     },
     { name: 'SummonFreakApp',
-      check: (text: string): boolean => !!text.match(/.+(\s召喚)$/g),
+      check: (text: string): boolean => !!text.match(/サモフリ/g),
       run: (text: string): LineTextMessage => {
-        return { type: 'text', text: (text.replace(/(\s召喚)$/g, '') + ' サーモン食べたい') }
+        return MessageAppStore.fetchApp(env('URL/SUMMON_FREAK'), text)
       }
     },
     { name: 'BakeryApp',
